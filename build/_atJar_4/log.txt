@@ -1,0 +1,7 @@
+Java Launcher: C:\Program Files\Java\jdk-21\bin\java.exe
+Arguments: '--inJar, C:\Users\jodos\.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.21-51.0.29\forge-1.21-51.0.29-injected.jar, --outJar, C:\Users\jodos\.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.21-51.0.29_mapped_parchment_2024.06.23-1.21\forge-1.21-51.0.29_mapped_parchment_2024.06.23-1.21.jar, --logFile, accesstransform.log, --atFile, C:\Users\jodos\Documents\GitHub\FlawlessMod\build\_atJar_4\parent_at.cfg'
+Classpath:
+ - C:\Users\jodos\.gradle\caches\forge_gradle\maven_downloader\net\minecraftforge\accesstransformers\8.2.0\accesstransformers-8.2.0-fatjar.jar
+Working directory: C:\Users\jodos\Documents\GitHub\FlawlessMod\build\_atJar_4
+Main class: net.minecraftforge.accesstransformer.TransformerProcessor
+====================================
