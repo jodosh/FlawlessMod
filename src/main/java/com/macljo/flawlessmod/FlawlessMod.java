@@ -2,13 +2,14 @@ package com.macljo.flawlessmod;
 
 //Basic Imports
 import com.mojang.logging.LogUtils;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -26,7 +27,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.ServerChatEvent;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
+
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 @Mod(FlawlessMod.MOD_ID)
 public class FlawlessMod {
@@ -38,7 +48,7 @@ public class FlawlessMod {
 
     public FlawlessMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        MinecraftForge.EVENT_BUS.register(this);
+        //MinecraftForge.EVENT_BUS.register(this);
     }
 
 
@@ -112,4 +122,24 @@ public class FlawlessMod {
         int remainingAbsorptionHearts = (currentHealth - maxHealth) / 2;
         return Math.max(0, remainingAbsorptionHearts);
     }
+
+/*
+    @SubscribeEvent
+    public static void onPlayerChat(@NotNull ServerChatEvent event) {
+        if (event.getPlayer() instanceof ServerPlayer) {
+            ServerPlayer player = (ServerPlayer) event.getPlayer();
+            int achievementsCount = getNumberOfAchievements(player);
+
+            // Send a message back to the player with the number of achievements
+            player.sendSystemMessage(Component.literal("You have earned " + achievementsCount + " achievements."));
+        }
+    }
+
+    private static int getNumberOfAchievements(ServerPlayer player) {
+        // Access the player's achievements and count them
+        return 5;
+    }
+
+ */
+
 }
