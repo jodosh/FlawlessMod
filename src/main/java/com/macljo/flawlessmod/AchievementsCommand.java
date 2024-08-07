@@ -2,24 +2,29 @@ package com.macljo.flawlessmod;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.BossEvent;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
-import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(modid = FlawlessMod.MOD_ID)
+@Mod.EventBusSubscriber(modid = FlawlessMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AchievementsCommand {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -41,6 +46,19 @@ public class AchievementsCommand {
 
         dispatcher.register(command);
         LOGGER.info("Achievements command registered");
+    }
+
+    @SubscribeEvent
+    public static void onPlayerDeath(LivingDeathEvent event) {
+        LOGGER.info("Death Happened");
+        if (event.getEntity() instanceof ServerPlayer player) {
+            LOGGER.info("Death was player");
+            event.setCanceled(true);
+
+            Component customDeathMessage = Component.literal(getNumberOfAchievementsEarned((ServerPlayer) player) + " achievements out of " + getNumberOfAchievements((ServerPlayer) player));
+            player.sendSystemMessage(customDeathMessage);
+
+        }
     }
 
     private static int getNumberOfAchievementsEarned(ServerPlayer player) {
